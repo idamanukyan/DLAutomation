@@ -6,9 +6,8 @@ public class ChangeInfo {
     private String change;
     private String releasestand;
     private boolean isFullyRed;
-    private String logik; // New field for Logik
+    private String logik;
 
-    // Constructor
     public ChangeInfo(String tableName, String changeNumber, String change, String releasestand, boolean isFullyRed, String logik) {
         this.tableName = tableName;
         this.changeNumber = changeNumber;
@@ -18,7 +17,6 @@ public class ChangeInfo {
         this.logik = logik;
     }
 
-    // Getters and setters
     public String getTableName() {
         return tableName;
     }

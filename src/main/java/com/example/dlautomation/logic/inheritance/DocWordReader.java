@@ -97,19 +97,15 @@ public class DocWordReader extends AbstractWordReader {
     }
 
     private String determineLogik(TableCell cell) {
-        // Implement a heuristic approach if direct detection isn't possible
-        // Placeholder implementation based on text patterns
         String cellText = cell.text().trim();
-        if (cellText.contains("deleted")) { // Placeholder for detection logic
+        if (cellText.contains("deleted")) {
             return "Rückbau Logik";
         }
         return "Änderung Logik";
     }
 
     private boolean isTextFullyRed(TableCell cell) {
-        // Implement logic to check if the entire text in cell is red
-        // Placeholder implementation
-        return cell.text().contains("red text indicator"); // Adjust as needed
+        return cell.text().contains("red text indicator");
     }
 
 

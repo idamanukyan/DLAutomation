@@ -33,20 +33,18 @@ public class WordReader {
     }
 
     public static void main(String[] args) throws IOException {
-        String docPath = "C:\\Users\\Admin\\Downloads\\MOD_RMSIN_DEAL.MAP_T_ORBI_DEALS_AFTERMATH1.docx" ;
+        String docPath = "C:\\Users\\Admin\\Downloads\\MOD_RMSIN_DEAL.MAP_T_ORBI_DEALS_AFTERMATH1.docx";
 
         List<ChangeInfo> changes = getRedChangesWithTableName(docPath);
 
         String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String excelPath = "C:\\Users\\Admin\\Downloads\\RedChanges_" + timestamp + ".xlsx";
 
-        // Print the extracted red changes
         System.out.println("Red Changes:");
         for (ChangeInfo change : changes) {
             System.out.println("Table Name: " + change.getTableName() + " | Change Number: " + change.getChangeNumber() + " | Change: " + change.getChange());
         }
 
-        // Write the changes to an Excel file
         ExcelUpdater.writeChangesToExcel(changes, excelPath, changes.get(0).getReleasestand());
     }
 }

@@ -68,7 +68,7 @@ public class DocxWordReader extends AbstractWordReader {
                         String changeText = getRedTextFromCell(changeCell);
 
                         boolean isFullyRed = getRedTextFromCell(changeCell).equals(changeCell.getText());
-                        String logik = determineLogik(changeCell); // Determine Logik based on red text
+                        String logik = determineLogik(changeCell);
 
                         if (!changeText.isEmpty()) {
                             changes.add(new ChangeInfo(tableName, changeNumber, changeText, releasestand, isFullyRed, logik));

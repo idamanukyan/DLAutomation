@@ -16,7 +16,6 @@ public class ExcelUpdater {
             Sheet datenmodellanderungenSheet = workbook.createSheet("datenmodellanderungen");
             Sheet logikanderungenSheet = workbook.createSheet("logikanderungen");
 
-            // Create header rows
             createHeaderRow(datenmodellanderungenSheet);
             createHeaderRow(logikanderungenSheet);
 
@@ -46,7 +45,7 @@ public class ExcelUpdater {
         headerRow.createCell(1).setCellValue("Change Number");
         headerRow.createCell(2).setCellValue("Change");
         headerRow.createCell(3).setCellValue("Releasestand");
-        headerRow.createCell(4).setCellValue("Logik"); // New header for Logik
+        headerRow.createCell(4).setCellValue("Logik");
     }
 
     private static void createDataRow(Row row, ChangeInfo change) {
@@ -54,6 +53,6 @@ public class ExcelUpdater {
         row.createCell(1).setCellValue(change.getChangeNumber());
         row.createCell(2).setCellValue(change.getChange());
         row.createCell(3).setCellValue(change.getReleasestand());
-        row.createCell(4).setCellValue(change.getLogik()); // Add Logik value
+        row.createCell(4).setCellValue(change.getLogik());
     }
 }
