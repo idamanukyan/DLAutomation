@@ -1,7 +1,7 @@
-package com.example.dlautomation.logic.inheritance;
+package com.example.dlautomation.logic.readers;
 
-import com.example.dlautomation.logic.ChangeInfo;
-import com.example.dlautomation.logic.ExcelUpdater;
+import com.example.dlautomation.logic.models.ChangeInfo;
+import com.example.dlautomation.logic.models.ExcelUpdater;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;

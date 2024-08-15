@@ -1,4 +1,4 @@
-package com.example.dlautomation.logic;
+package com.example.dlautomation.logic.models;
 
 public class ChangeInfo {
     private String tableName;

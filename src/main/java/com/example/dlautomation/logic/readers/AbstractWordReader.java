@@ -1,6 +1,6 @@
-package com.example.dlautomation.logic.inheritance;
+package com.example.dlautomation.logic.readers;
 
-import com.example.dlautomation.logic.ChangeInfo;
+import com.example.dlautomation.logic.models.ChangeInfo;
 
 import java.io.IOException;
 import java.util.List;

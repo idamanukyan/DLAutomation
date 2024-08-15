@@ -1,4 +1,4 @@
-package com.example.dlautomation.logic;
+package com.example.dlautomation.logic.models;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -30,8 +30,12 @@ public class ExcelUpdater {
                     row = logikanderungenSheet.createRow(logikanderungenRowNum++);
                 }
 
-                createDataRow(row, change, module, mapping);
+                createDataRow(row, change);
             }
+
+            // Add module and mapping to the sheet names or as metadata
+            workbook.setSheetName(0, "Datenmodelländerungen - " + module + " - " + mapping);
+            workbook.setSheetName(1, "Logikänderungen - " + module + " - " + mapping);
 
             try (FileOutputStream fileOut = new FileOutputStream(filePath)) {
                 workbook.write(fileOut);
@@ -46,17 +50,13 @@ public class ExcelUpdater {
         headerRow.createCell(2).setCellValue("Change");
         headerRow.createCell(3).setCellValue("Releasestand");
         headerRow.createCell(4).setCellValue("Logik");
-        headerRow.createCell(5).setCellValue("Module");
-        headerRow.createCell(6).setCellValue("Mapping");
     }
 
-    private static void createDataRow(Row row, ChangeInfo change, String module, String mapping) {
+    private static void createDataRow(Row row, ChangeInfo change) {
         row.createCell(0).setCellValue(change.getTableName());
         row.createCell(1).setCellValue(change.getChangeNumber());
         row.createCell(2).setCellValue(change.getChange());
         row.createCell(3).setCellValue(change.getReleasestand());
         row.createCell(4).setCellValue(change.getLogik());
-        row.createCell(5).setCellValue(module);
-        row.createCell(6).setCellValue(mapping);
     }
 }
