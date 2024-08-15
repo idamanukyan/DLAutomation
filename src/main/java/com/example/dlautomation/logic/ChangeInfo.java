@@ -5,14 +5,18 @@ public class ChangeInfo {
     private String changeNumber;
     private String change;
     private String releasestand;
+    private String module;
+    private String mapping;
     private boolean isFullyRed;
     private String logik;
 
-    public ChangeInfo(String tableName, String changeNumber, String change, String releasestand, boolean isFullyRed, String logik) {
+    public ChangeInfo(String tableName, String changeNumber, String change, String releasestand, String module, String mapping, boolean isFullyRed, String logik) {
         this.tableName = tableName;
         this.changeNumber = changeNumber;
         this.change = change;
         this.releasestand = releasestand;
+        this.module = module;
+        this.mapping = mapping;
         this.isFullyRed = isFullyRed;
         this.logik = logik;
     }
@@ -31,6 +35,14 @@ public class ChangeInfo {
 
     public String getReleasestand() {
         return releasestand;
+    }
+
+    public String getModule() {
+        return module;
+    }
+
+    public String getMapping() {
+        return mapping;
     }
 
     public boolean isFullyRed() {
