@@ -1,11 +1,8 @@
 package com.example.dlautomation.logic.readers;
 
 import com.example.dlautomation.logic.models.ChangeInfo;
-import com.example.dlautomation.logic.models.ExcelUpdater;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 public class WordReader {
@@ -56,26 +53,5 @@ public class WordReader {
         }
 
         return mapping;
-    }
-
-    public static void main(String[] args) throws IOException {
-        String docPath = "C:\\Users\\Admin\\Downloads\\MOD_RMSIN_DEAL.MAP_T_ORBI_DEALS_AFTERMATH1.docx";
-        List<ChangeInfo> changes = getRedChangesWithTableName(docPath);
-
-        // Extract module and mapping from the file name
-        String fileName = docPath.substring(docPath.lastIndexOf("\\") + 1);
-        String module = extractModule(fileName);
-        String mapping = extractMapping(fileName);
-
-        // Use module and mapping to name the Excel file
-        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String excelPath = String.format("C:\\Users\\Admin\\Downloads\\%s_%s_Changes_%s.xlsx", module, mapping, timestamp);
-
-        System.out.println("Red Changes:");
-        for (ChangeInfo change : changes) {
-            System.out.println("Table Name: " + change.getTableName() + " | Change Number: " + change.getChangeNumber() + " | Change: " + change.getChange());
-        }
-
-        ExcelUpdater.writeChangesToExcel(changes, excelPath, module, mapping);
     }
 }

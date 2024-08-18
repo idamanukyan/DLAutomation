@@ -24,25 +24,20 @@ public class DocWordReader extends AbstractWordReader {
             int numParagraphs = range.numParagraphs();
             String tableName = "Unknown Table Name";
 
-            // Iterate through paragraphs to find the text right before the table
             for (int i = 0; i < numParagraphs; i++) {
                 Paragraph paragraph = range.getParagraph(i);
                 String paragraphText = cleanHyperlinks(paragraph.text().trim());
 
-                // Check if this paragraph is followed by a table
                 if (i + 1 < numParagraphs) {
                     Paragraph nextParagraph = range.getParagraph(i + 1);
                     if (isTableStart(nextParagraph)) {
-                        // The table starts here, so the previous paragraph should contain the table name
                         tableName = paragraphText;
                         break;
                     }
                 }
             }
 
-            // Additional check to improve the detection of table name
             if (tableName.equals("Unknown Table Name")) {
-                // Check for the first paragraph that contains non-empty text
                 for (int i = 0; i < numParagraphs; i++) {
                     Paragraph paragraph = range.getParagraph(i);
                     String paragraphText = cleanHyperlinks(paragraph.text().trim());
@@ -61,23 +56,16 @@ public class DocWordReader extends AbstractWordReader {
     }
 
     private boolean isTableStart(Paragraph paragraph) {
-        // Determines if a paragraph marks the start of a table
         return paragraph.text().trim().isEmpty();
     }
 
     private String cleanHyperlinks(String text) {
-        // Remove common hyperlink artifacts from text
         String cleanedText = text;
 
-        // Remove common URL patterns
-        cleanedText = cleanedText.replaceAll("https?://\\S+", ""); // Remove URLs
-
-        // Remove specific hyperlink artifacts
-        cleanedText = cleanedText.replaceAll("\\[HYPERLINK[^\\]]*\\]", ""); // Remove HYPERLINK markers
-
-        // Remove any residual special characters or formatting
-        cleanedText = cleanedText.replaceAll("\\p{C}", ""); // Remove control characters
-        cleanedText = cleanedText.trim(); // Trim any extra whitespace
+        cleanedText = cleanedText.replaceAll("https?://\\S+", "");
+        cleanedText = cleanedText.replaceAll("\\[HYPERLINK[^\\]]*\\]", "");
+        cleanedText = cleanedText.replaceAll("\\p{C}", "");
+        cleanedText = cleanedText.trim();
 
         return cleanedText;
     }
@@ -126,10 +114,10 @@ public class DocWordReader extends AbstractWordReader {
                         String changeText = cleanHyperlinks(changeCell.text().trim());
 
                         boolean isFullyRed = isTextFullyRed(changeCell);
-                        String logik = determineLogik(changeCell); // Determine Logik based on red text
+                        String logik = determineLogik(changeCell);
 
                         if (!changeText.isEmpty()) {
-                            changes.add(new ChangeInfo(tableName, changeNumber, changeText, releasestand, getModule(), getMapping(), isFullyRed, logik));
+                            changes.add(new ChangeInfo(tableName, changeNumber, changeText, releasestand, getMappingName(), isFullyRed, logik));
                         }
                     }
                 }
@@ -151,7 +139,6 @@ public class DocWordReader extends AbstractWordReader {
         return cell.text().contains("red text indicator");
     }
 
-    // For debugging purposes - to inspect paragraphs and text
     public void debugParagraphs() throws IOException {
         try (FileInputStream fis = new FileInputStream(docPath);
              HWPFDocument document = new HWPFDocument(fis)) {
@@ -163,10 +150,8 @@ public class DocWordReader extends AbstractWordReader {
                 Paragraph paragraph = range.getParagraph(i);
                 String paragraphText = cleanHyperlinks(paragraph.text().trim());
 
-                // Print or log the paragraph text
                 System.out.println("Paragraph " + i + ": " + paragraphText);
 
-                // Check for hyperlinks or special formatting
                 for (int j = 0; j < paragraph.numCharacterRuns(); j++) {
                     CharacterRun run = paragraph.getCharacterRun(j);
                     String text = run.text();

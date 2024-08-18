@@ -22,18 +22,24 @@ public class FolderProcessor {
 
             for (File file : files) {
                 String docPath = file.getAbsolutePath();
+                String mappingName = file.getName().substring(0, file.getName().lastIndexOf('.'));
+
                 List<ChangeInfo> changes = getRedChangesWithTableName(docPath);
 
-                // Add changes to the list
-                allChanges.addAll(changes);
+                for (ChangeInfo change : changes) {
+                    allChanges.add(new ChangeInfo(
+                            change.getTableName(),
+                            change.getChangeNumber(),
+                            change.getChange(),
+                            change.getReleasestand(),
+                            mappingName,
+                            change.isFullyRed(),
+                            change.getLogik()
+                    ));
+                }
             }
 
-            // Use dummy values for module and mapping since it's for all documents
-            String dummyModule = "";
-            String dummyMapping = "";
-
-            // Write all changes to a single Excel file
-            ExcelUpdater.writeChangesToExcel(allChanges, outputFilePath, dummyModule, dummyMapping);
+            ExcelUpdater.writeChangesToExcel(allChanges, outputFilePath);
         } else {
             System.out.println("No documents found in the specified folder.");
         }

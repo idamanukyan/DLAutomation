@@ -10,12 +10,8 @@ import java.util.List;
 
 public class DocxWordReader extends AbstractWordReader {
 
-    private String module;
-    private String mapping;
-
     public DocxWordReader(String docPath) {
         super(docPath);
-        extractModuleAndMapping();
     }
 
     @Override
@@ -75,7 +71,7 @@ public class DocxWordReader extends AbstractWordReader {
                         String logik = determineLogik(changeCell);
 
                         if (!changeText.isEmpty()) {
-                            changes.add(new ChangeInfo(tableName, changeNumber, changeText, releasestand, module, mapping, isFullyRed, logik));
+                            changes.add(new ChangeInfo(tableName, changeNumber, changeText, releasestand, getMappingName(), isFullyRed, logik));
                         }
                     }
                 }
@@ -115,19 +111,5 @@ public class DocxWordReader extends AbstractWordReader {
             }
         }
         return redText.toString().trim();
-    }
-
-    private void extractModuleAndMapping() {
-        String fileName = docPath.substring(docPath.lastIndexOf("\\") + 1, docPath.lastIndexOf('.'));
-        String[] parts = fileName.split("\\.");
-        if (parts.length >= 3) {
-            String modulePart = parts[0].toUpperCase();
-            String mappingPart = parts[1].toUpperCase();
-            this.module = modulePart.split("_")[1]; // Assuming the format MOD_MODULE
-            this.mapping = mappingPart.split("_")[1]; // Assuming the format MAP_MAPPING
-        } else {
-            this.module = "Unknown Module";
-            this.mapping = "Unknown Mapping";
-        }
     }
 }

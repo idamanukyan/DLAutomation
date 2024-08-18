@@ -9,7 +9,7 @@ public abstract class AbstractWordReader {
 
     protected String docPath;
     protected String module;
-    protected String mapping;
+    protected String mappingName;
 
     public AbstractWordReader(String docPath) {
         this.docPath = docPath;
@@ -28,7 +28,6 @@ public abstract class AbstractWordReader {
     }
 
     private void extractModuleAndMapping() {
-        // Extract module and mapping from the filename
         String fileName = docPath.substring(docPath.lastIndexOf("\\") + 1, docPath.lastIndexOf('.'));
         String[] parts = fileName.split("\\.");
 
@@ -37,10 +36,10 @@ public abstract class AbstractWordReader {
             String mappingPart = parts[1];
 
             if (modulePart.startsWith("MOD_")) {
-                module = modulePart.substring(4); // Extract module
+                module = modulePart.substring(4);
             }
             if (mappingPart.startsWith("MAP_")) {
-                mapping = mappingPart.substring(4); // Extract mapping
+                mappingName = mappingPart.substring(4);
             }
         }
     }
@@ -49,7 +48,7 @@ public abstract class AbstractWordReader {
         return module;
     }
 
-    public String getMapping() {
-        return mapping;
+    public String getMappingName() {
+        return mappingName;
     }
 }
