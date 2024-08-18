@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FolderProcessor {
 
@@ -24,7 +25,11 @@ public class FolderProcessor {
                 String docPath = file.getAbsolutePath();
                 String mappingName = file.getName().substring(0, file.getName().lastIndexOf('.'));
 
-                List<ChangeInfo> changes = getRedChangesWithTableName(docPath);
+                List<ChangeInfo> notFilteredChanges = getRedChangesWithTableName(docPath);
+
+                List<ChangeInfo> changes = notFilteredChanges.stream()
+                        .filter(change -> !"Join-Bedingungen".equalsIgnoreCase(change.getChangeNumber()))
+                        .collect(Collectors.toList());
 
                 for (ChangeInfo change : changes) {
                     allChanges.add(new ChangeInfo(
