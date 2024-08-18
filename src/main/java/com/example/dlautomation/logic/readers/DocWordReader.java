@@ -143,7 +143,7 @@ public class DocWordReader extends AbstractWordReader {
         if (cellText.contains("deleted")) {
             return "Rückbau Logik";
         }
-        return "Änderung Logik";
+        return "Neuer Variable";
     }
 
     private boolean isTextFullyRed(TableCell cell) {

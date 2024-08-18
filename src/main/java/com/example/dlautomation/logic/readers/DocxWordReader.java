@@ -102,7 +102,7 @@ public class DocxWordReader extends AbstractWordReader {
         if (isCrossedOut) {
             return "Rückbau Logik";
         }
-        return "Änderung Logik";
+        return "Neuer Variable";
     }
 
     private String getRedTextFromCell(XWPFTableCell cell) {
