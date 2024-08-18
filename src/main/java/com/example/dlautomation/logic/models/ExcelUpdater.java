@@ -45,11 +45,11 @@ public class ExcelUpdater {
 
     private static void createHeaderRow(Sheet sheet) {
         Row headerRow = sheet.createRow(0);
-        headerRow.createCell(0).setCellValue("Table Name");
-        headerRow.createCell(1).setCellValue("Change Number");
-        headerRow.createCell(2).setCellValue("Change");
-        headerRow.createCell(3).setCellValue("Releasestand");
-        headerRow.createCell(4).setCellValue("Logik");
+        headerRow.createCell(0).setCellValue("Tabellenname");       // Table Name -> Tabellenname
+        headerRow.createCell(1).setCellValue("Änderungsnummer");    // Change Number -> Änderungsnummer
+        headerRow.createCell(2).setCellValue("Änderung");           // Change -> Änderung
+        headerRow.createCell(3).setCellValue("Releasestand");       // Releasestand (already in German)
+        headerRow.createCell(4).setCellValue("Logik");              // Logik (already in German)
     }
 
     private static void createDataRow(Row row, ChangeInfo change) {
