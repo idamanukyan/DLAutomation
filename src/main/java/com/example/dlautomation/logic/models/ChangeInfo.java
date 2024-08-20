@@ -8,8 +8,10 @@ public class ChangeInfo {
     private String mappingName;
     private boolean isFullyRed;
     private String logik;
+    private String wholeString;
 
-    public ChangeInfo(String tableName, String changeNumber, String change, String releasestand, String mappingName, boolean isFullyRed, String logik) {
+    public ChangeInfo(String tableName, String changeNumber, String change, String releasestand, String mappingName, boolean isFullyRed, String logik,
+                      String wholeString) {
         this.tableName = tableName;
         this.changeNumber = changeNumber;
         this.change = change;
@@ -17,6 +19,7 @@ public class ChangeInfo {
         this.mappingName = mappingName;
         this.isFullyRed = isFullyRed;
         this.logik = logik;
+        this.wholeString = wholeString;
     }
 
     public String getTableName() {
@@ -45,5 +48,9 @@ public class ChangeInfo {
 
     public String getLogik() {
         return logik;
+    }
+
+    public String getWholeString() {
+        return wholeString;
     }
 }

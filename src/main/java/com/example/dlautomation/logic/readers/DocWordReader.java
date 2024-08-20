@@ -112,12 +112,13 @@ public class DocWordReader extends AbstractWordReader {
                         TableCell changeCell = row.getCell(1);
                         String changeNumber = cleanHyperlinks(numberCell.text().trim());
                         String changeText = cleanHyperlinks(changeCell.text().trim());
+                        String wholeText = getRedTextFromCell(changeCell);
 
                         boolean isFullyRed = isTextFullyRed(changeCell);
                         String logik = determineLogik(changeCell);
 
                         if (!changeText.isEmpty()) {
-                            changes.add(new ChangeInfo(tableName, changeNumber, changeText, releasestand, getMappingName(), isFullyRed, logik));
+                            changes.add(new ChangeInfo(tableName, changeNumber, changeText, releasestand, getMappingName(), isFullyRed, logik, wholeText));
                         }
                     }
                 }
@@ -139,27 +140,19 @@ public class DocWordReader extends AbstractWordReader {
         return cell.text().contains("red text indicator");
     }
 
-    public void debugParagraphs() throws IOException {
-        try (FileInputStream fis = new FileInputStream(docPath);
-             HWPFDocument document = new HWPFDocument(fis)) {
+    private String getRedTextFromCell(TableCell cell) {
+        boolean hasRedText = false;
+        StringBuilder cellText = new StringBuilder();
+       // for (CharacterRun run : cell.getCharacterRuns()) {
+         //   if (run.getIcofo() == 0xFF0000) { // Check for red color
+                hasRedText = true;
+           // }
+           // cellText.append(run.text());
+       // }
 
-            Range range = document.getRange();
-            int numParagraphs = range.numParagraphs();
+        // Only return the text if there is at least one red letter
+     //   return hasRedText ? cellText.toString().trim() : "";
 
-            for (int i = 0; i < numParagraphs; i++) {
-                Paragraph paragraph = range.getParagraph(i);
-                String paragraphText = cleanHyperlinks(paragraph.text().trim());
-
-                System.out.println("Paragraph " + i + ": " + paragraphText);
-
-                for (int j = 0; j < paragraph.numCharacterRuns(); j++) {
-                    CharacterRun run = paragraph.getCharacterRun(j);
-                    String text = run.text();
-                    if (text.contains("HYPERLINK")) {
-                        System.out.println("Found hyperlink in Paragraph " + i + ": " + text);
-                    }
-                }
-            }
-        }
+        return null;
     }
 }

@@ -50,6 +50,7 @@ public class ExcelUpdater {
         headerRow.createCell(3).setCellValue("Releasestand");
         headerRow.createCell(4).setCellValue("Logik");
         headerRow.createCell(5).setCellValue("Mappingname");
+        headerRow.createCell(6).setCellValue("Whole Text");
     }
 
     private static void createDataRow(Row row, ChangeInfo change) {
@@ -59,5 +60,6 @@ public class ExcelUpdater {
         row.createCell(3).setCellValue(change.getReleasestand());
         row.createCell(4).setCellValue(change.getLogik());
         row.createCell(5).setCellValue(change.getMappingName());
+        row.createCell(6).setCellValue(change.getWholeString());
     }
 }

@@ -66,12 +66,13 @@ public class DocxWordReader extends AbstractWordReader {
                         XWPFTableCell changeCell = row.getCell(1);
                         String changeNumber = numberCell.getText().trim();
                         String changeText = getRedTextFromCell(changeCell);
+                        String wholeString = getWholeText(changeCell);
 
                         boolean isFullyRed = getRedTextFromCell(changeCell).equals(changeCell.getText());
                         String logik = determineLogik(changeCell);
 
                         if (!changeText.isEmpty()) {
-                            changes.add(new ChangeInfo(tableName, changeNumber, changeText, releasestand, getMappingName(), isFullyRed, logik));
+                            changes.add(new ChangeInfo(tableName, changeNumber, changeText, releasestand, getMappingName(), isFullyRed, logik, wholeString));
                         }
                     }
                 }
@@ -112,4 +113,23 @@ public class DocxWordReader extends AbstractWordReader {
         }
         return redText.toString().trim();
     }
+
+    private String getWholeText(XWPFTableCell cell) {
+        boolean hasRedText = false;
+        StringBuilder cellText = new StringBuilder();
+
+        for (XWPFParagraph paragraph : cell.getParagraphs()) {
+            for (XWPFRun run : paragraph.getRuns()) {
+                String color = run.getColor();
+                if ("FF0000".equalsIgnoreCase(color)) {
+                    hasRedText = true;
+                }
+                cellText.append(run.getText(0));
+            }
+        }
+
+        // Only return the text if there is at least one red letter
+        return hasRedText ? cellText.toString().trim() : "";
+    }
+
 }

@@ -39,7 +39,8 @@ public class FolderProcessor {
                             change.getReleasestand(),
                             mappingName,
                             change.isFullyRed(),
-                            change.getLogik()
+                            change.getLogik(),
+                            change.getWholeString()
                     ));
                 }
             }
