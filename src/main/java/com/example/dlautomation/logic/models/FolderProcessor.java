@@ -16,12 +16,15 @@ public class FolderProcessor {
 
     public static void processFolder(String folderPath, String outputFilePath) throws IOException {
         File folder = new File(folderPath);
-        File[] files = folder.listFiles((dir, name) -> name.endsWith(".doc") || name.endsWith(".docx"));
+        List<File> filesToProcess = new ArrayList<>();
 
-        if (files != null) {
+        // Recursively collect all .doc and .docx files
+        collectFilesRecursively(folder, filesToProcess);
+
+        if (!filesToProcess.isEmpty()) {
             List<ChangeInfo> allChanges = new ArrayList<>();
 
-            for (File file : files) {
+            for (File file : filesToProcess) {
                 String docPath = file.getAbsolutePath();
                 String mappingName = file.getName().substring(0, file.getName().lastIndexOf('.'));
 
@@ -48,6 +51,20 @@ public class FolderProcessor {
             ExcelUpdater.writeChangesToExcel(allChanges, outputFilePath);
         } else {
             System.out.println("No documents found in the specified folder.");
+        }
+    }
+
+    private static void collectFilesRecursively(File folder, List<File> filesToProcess) {
+        File[] files = folder.listFiles();
+
+        if (files != null) {
+            for (File file : files) {
+                if (file.isDirectory()) {
+                    collectFilesRecursively(file, filesToProcess);
+                } else if (file.isFile() && (file.getName().endsWith(".doc") || file.getName().endsWith(".docx"))) {
+                    filesToProcess.add(file);
+                }
+            }
         }
     }
 
