@@ -76,10 +76,8 @@ public class FolderProcessor {
         String folderPath = "C:\\Users\\Admin\\Desktop\\documents";
         String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 
-        String downloadsPath = System.getProperty("user.home") + "/Downloads/extracted-data_%s.xlsx" + timestamp;
+        String downloadsPath = System.getProperty("user.home") + "/Downloads/extracted-data-" + timestamp + ".xlsx";
 
-        String outputFilePath = String.format(downloadsPath);
-
-        processFolder(folderPath, outputFilePath);
+        processFolder(folderPath, downloadsPath);
     }
 }
