@@ -45,7 +45,7 @@ public class ExcelUpdater {
     private static void createHeaderRow(Sheet sheet) {
         Row headerRow = sheet.createRow(0);
         headerRow.createCell(0).setCellValue("Tabellenname");
-        headerRow.createCell(1).setCellValue("Änderungsnummer");
+        headerRow.createCell(1).setCellValue("Feldname");
         headerRow.createCell(2).setCellValue("Änderung");
         headerRow.createCell(3).setCellValue("Releasestand");
         headerRow.createCell(4).setCellValue("Logik");
