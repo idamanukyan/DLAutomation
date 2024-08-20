@@ -75,7 +75,10 @@ public class FolderProcessor {
     public static void main(String[] args) throws IOException {
         String folderPath = "C:\\Users\\Admin\\Desktop\\documents";
         String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String outputFilePath = String.format("C:\\Users\\Admin\\Downloads\\All_Changes_%s.xlsx", timestamp);
+
+        String downloadsPath = System.getProperty("user.home") + "/Downloads/extracted-data_%s.xlsx" + timestamp;
+
+        String outputFilePath = String.format(downloadsPath);
 
         processFolder(folderPath, outputFilePath);
     }
