@@ -50,7 +50,7 @@ public class ExcelUpdater {
         headerRow.createCell(3).setCellValue("Releasestand");
         headerRow.createCell(4).setCellValue("Logik");
         headerRow.createCell(5).setCellValue("Mappingname");
-        headerRow.createCell(6).setCellValue("Whole Text");
+        headerRow.createCell(6).setCellValue("Ganze Reihe");
     }
 
     private static void createDataRow(Row row, ChangeInfo change) {

@@ -87,8 +87,13 @@ public class DocxWordReader extends AbstractWordReader {
 
         for (XWPFParagraph paragraph : cell.getParagraphs()) {
             for (XWPFRun run : paragraph.getRuns()) {
-                if (run.getColor() != null && "FF0000".equalsIgnoreCase(run.getColor())) {
-                    cellText.append(run.getText(0)).append(" ");
+                String color = run.getColor();
+                if (color != null && "FF0000".equalsIgnoreCase(color)) {
+                    String text = run.getText(0);
+                    if (text != null) {
+                        cellText.append(text).append(" ");
+                    }
+
                     if (run.isStrikeThrough()) {
                         isCrossedOut = true;
                     }
@@ -98,9 +103,11 @@ public class DocxWordReader extends AbstractWordReader {
 
         if (isCrossedOut) {
             return "Rückbau Logik";
+        } else {
+            return "Neuer Variable";
         }
-        return "Neuer Variable";
     }
+
 
     private String getRedTextFromCell(XWPFTableCell cell) {
         StringBuilder redText = new StringBuilder();

@@ -18,7 +18,6 @@ public class FolderProcessor {
         File folder = new File(folderPath);
         List<File> filesToProcess = new ArrayList<>();
 
-        // Recursively collect all .doc and .docx files
         collectFilesRecursively(folder, filesToProcess);
 
         if (!filesToProcess.isEmpty()) {
