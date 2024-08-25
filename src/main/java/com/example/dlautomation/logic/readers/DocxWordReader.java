@@ -135,7 +135,6 @@ public class DocxWordReader extends AbstractWordReader {
             }
         }
 
-        // Only return the text if there is at least one red letter
         return hasRedText ? cellText.toString().trim() : "";
     }
 

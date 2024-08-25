@@ -22,11 +22,6 @@ public abstract class AbstractWordReader {
 
     public abstract List<ChangeInfo> getRedChanges(String tableName, String releasestand) throws IOException;
 
-    protected String getFileExtension() {
-        int lastIndex = docPath.lastIndexOf('.');
-        return (lastIndex == -1) ? "" : docPath.substring(lastIndex);
-    }
-
     private void extractModuleAndMapping() {
         String fileName = docPath.substring(docPath.lastIndexOf("\\") + 1, docPath.lastIndexOf('.'));
         String[] parts = fileName.split("\\.");
@@ -42,10 +37,6 @@ public abstract class AbstractWordReader {
                 mappingName = mappingPart.substring(4);
             }
         }
-    }
-
-    public String getModule() {
-        return module;
     }
 
     public String getMappingName() {
