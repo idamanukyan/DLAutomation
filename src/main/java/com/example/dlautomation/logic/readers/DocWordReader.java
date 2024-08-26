@@ -144,7 +144,7 @@ public class DocWordReader extends AbstractWordReader {
             }
         }
 
-        return isCrossedOut ? "Rückbau Logik" : "Neuer Variable";
+        return isCrossedOut ? "Rückbau Logik" : "Neue Logik";
     }
 
     private String getRedTextFromCell(TableCell cell) {

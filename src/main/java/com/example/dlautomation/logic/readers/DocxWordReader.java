@@ -122,7 +122,7 @@ public class DocxWordReader extends AbstractWordReader {
         if (isCrossedOut) {
             return "Rückbau Logik";
         } else {
-            return "Neuer Variable";
+            return "Neue Logik";
         }
     }
 
