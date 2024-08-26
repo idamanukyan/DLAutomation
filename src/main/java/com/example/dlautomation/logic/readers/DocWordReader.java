@@ -47,11 +47,9 @@ public class DocWordReader extends AbstractWordReader {
                 }
             }
         } catch (IOException e) {
-            // Log the exception with file path for debugging
             System.err.println("Failed to load document: " + docPath + ". Error: " + e.getMessage());
             throw e;
         } catch (Exception e) {
-            // Catch any other exceptions that may occur
             System.err.println("Unexpected error processing document: " + docPath + ". Error: " + e.getMessage());
             throw new IOException("Failed to extract table name", e);
         }

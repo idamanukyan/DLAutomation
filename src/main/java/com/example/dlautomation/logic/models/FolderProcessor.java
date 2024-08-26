@@ -13,7 +13,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class FolderProcessor {
 
@@ -87,9 +86,8 @@ public class FolderProcessor {
             String releasestand = reader.extractReleasestand();
             return reader.getRedChanges(tableName, releasestand);
         } catch (IOException e) {
-            // Log the error and continue processing other files
             System.err.println("Error processing file " + docPath + ": " + e.getMessage());
-            return Collections.emptyList(); // Return an empty list or handle as needed
+            return Collections.emptyList();
         }
     }
 
