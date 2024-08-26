@@ -6,9 +6,11 @@ import com.example.dlautomation.logic.readers.DocxWordReader;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -90,11 +92,11 @@ public class FolderProcessor {
     }
 
     public static void main(String[] args) throws IOException {
-        String folderPath = "C:\\Users\\Admin\\Desktop\\documents";
-        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String folderPath = "C:\\Users\\A062449\\Deutsche Leasing\\RMS-Team - Release Management\\RMS-Dokumentation\\Mappings";
+        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
 
-        String downloadsPath = System.getProperty("user.home") + "/Downloads/extracted-data-" + timestamp + ".xlsx";
+        Path downloadsPath = Paths.get(System.getProperty("user.home"), "Downloads", "extracted-data-" + timestamp + ".xlsx");
 
-        processFolder(folderPath, downloadsPath);
+        processFolder(folderPath, downloadsPath.toString());
     }
 }
