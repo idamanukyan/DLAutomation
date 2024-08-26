@@ -16,6 +16,11 @@ public class DocxWordReader extends AbstractWordReader {
 
     @Override
     public String extractTableName() throws IOException {
+        if (isTemporaryFile(docPath)) {
+            throw new IOException("File is a temporary document or not a valid Word file.");
+        }
+
+
         try (FileInputStream fis = new FileInputStream(docPath);
              XWPFDocument document = new XWPFDocument(fis)) {
             for (XWPFTable table : document.getTables()) {
@@ -30,9 +35,22 @@ public class DocxWordReader extends AbstractWordReader {
                     }
                 }
             }
+        } catch (IOException e) {
+            // Log the exception with file path for debugging
+            System.err.println("Failed to load document: " + docPath + ". Error: " + e.getMessage());
+            throw e;
+        } catch (Exception e) {
+            // Catch any other exceptions that may occur
+            System.err.println("Unexpected error processing document: " + docPath + ". Error: " + e.getMessage());
+            throw new IOException("Failed to extract table name", e);
         }
         return "Unknown Table Name";
     }
+
+    private boolean isTemporaryFile(String filePath) {
+        return filePath.startsWith("~$");
+    }
+
 
     @Override
     public String extractReleasestand() throws IOException {
