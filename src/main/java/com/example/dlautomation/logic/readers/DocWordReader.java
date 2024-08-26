@@ -15,9 +15,21 @@ public class DocWordReader extends AbstractWordReader {
         super(docPath);
     }
 
+    @Override
     public String extractTableName() throws IOException {
-        try (FileInputStream fis = new FileInputStream(docPath);
-             HWPFDocument document = new HWPFDocument(fis)) {
+
+        if (isTemporaryFile(docPath)) {
+            throw new IOException("File is a temporary document or not a valid Word file.");
+        }
+
+        try (FileInputStream fis = new FileInputStream(docPath)) {
+            HWPFDocument document;
+            try {
+                document = new HWPFDocument(fis);
+            } catch (IllegalArgumentException e) {
+                System.err.println("Failed to load document: " + docPath);
+                throw new IOException("The document could not be processed. It might be corrupted or in an unsupported format.", e);
+            }
 
             Range range = document.getRange();
             int numParagraphs = range.numParagraphs();
@@ -34,9 +46,22 @@ public class DocWordReader extends AbstractWordReader {
                     }
                 }
             }
+        } catch (IOException e) {
+            // Log the exception with file path for debugging
+            System.err.println("Failed to load document: " + docPath + ". Error: " + e.getMessage());
+            throw e;
+        } catch (Exception e) {
+            // Catch any other exceptions that may occur
+            System.err.println("Unexpected error processing document: " + docPath + ". Error: " + e.getMessage());
+            throw new IOException("Failed to extract table name", e);
         }
         return "Unknown Table Name";
     }
+
+    private boolean isTemporaryFile(String filePath) {
+        return filePath.startsWith("~$");
+    }
+
 
     private String extractTableNameFromText(String text) {
         String prefix = "Wenn";
@@ -53,11 +78,8 @@ public class DocWordReader extends AbstractWordReader {
             endIndex = text.length();
         }
 
-        String relevantText = text.substring(startIndex, endIndex).trim();
-
-        return relevantText;
+        return text.substring(startIndex, endIndex).trim();
     }
-
 
     @Override
     public String extractReleasestand() throws IOException {
@@ -136,7 +158,6 @@ public class DocWordReader extends AbstractWordReader {
             String text = run.text().trim();
             int colorIndex = run.getColor();
 
-
             if (isRedColor(colorIndex)) {
                 redText.append(text).append(" ");
                 hasRedText = true;
@@ -172,7 +193,6 @@ public class DocWordReader extends AbstractWordReader {
 
     private String getWholeText(TableCell cell) {
         StringBuilder cellText = new StringBuilder();
-
         for (int i = 0; i < cell.numCharacterRuns(); i++) {
             CharacterRun run = cell.getCharacterRun(i);
             cellText.append(run.text().trim());

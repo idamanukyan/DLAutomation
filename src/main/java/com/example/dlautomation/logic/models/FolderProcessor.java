@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,7 +34,7 @@ public class FolderProcessor {
 
                 List<ChangeInfo> changes = notFilteredChanges.stream()
                         .filter(change -> !"Join-Bedingungen".equalsIgnoreCase(change.getChangeNumber()))
-                        .collect(Collectors.toList());
+                        .toList();
 
                 for (ChangeInfo change : changes) {
                     allChanges.add(new ChangeInfo(
@@ -69,21 +70,27 @@ public class FolderProcessor {
         }
     }
 
-    private static List<ChangeInfo> getRedChangesWithTableName(String docPath) throws IOException {
+    private static List<ChangeInfo> getRedChangesWithTableName(String docPath) {
         AbstractWordReader reader;
         String fileExtension = getFileExtension(docPath);
 
-        if (".doc".equalsIgnoreCase(fileExtension)) {
-            reader = new DocWordReader(docPath);
-        } else if (".docx".equalsIgnoreCase(fileExtension)) {
-            reader = new DocxWordReader(docPath);
-        } else {
-            throw new IllegalArgumentException("Unsupported file format: " + fileExtension);
-        }
+        try {
+            if (".doc".equalsIgnoreCase(fileExtension)) {
+                reader = new DocWordReader(docPath);
+            } else if (".docx".equalsIgnoreCase(fileExtension)) {
+                reader = new DocxWordReader(docPath);
+            } else {
+                throw new IllegalArgumentException("Unsupported file format: " + fileExtension);
+            }
 
-        String tableName = reader.extractTableName();
-        String releasestand = reader.extractReleasestand();
-        return reader.getRedChanges(tableName, releasestand);
+            String tableName = reader.extractTableName();
+            String releasestand = reader.extractReleasestand();
+            return reader.getRedChanges(tableName, releasestand);
+        } catch (IOException e) {
+            // Log the error and continue processing other files
+            System.err.println("Error processing file " + docPath + ": " + e.getMessage());
+            return Collections.emptyList(); // Return an empty list or handle as needed
+        }
     }
 
     private static String getFileExtension(String docPath) {
@@ -92,7 +99,7 @@ public class FolderProcessor {
     }
 
     public static void main(String[] args) throws IOException {
-        String folderPath = "C:\\Users\\A062449\\Deutsche Leasing\\RMS-Team - Release Management\\RMS-Dokumentation\\Mappings";
+        String folderPath = "C:\\Users\\Admin\\Desktop\\documents";
         String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
 
         Path downloadsPath = Paths.get(System.getProperty("user.home"), "Downloads", "extracted-data-" + timestamp + ".xlsx");
