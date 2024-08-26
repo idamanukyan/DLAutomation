@@ -97,7 +97,7 @@ public class FolderProcessor {
     }
 
     public static void main(String[] args) throws IOException {
-        String folderPath = "C:\\Users\\Admin\\Desktop\\documents";
+        String folderPath = "C:\\Users\\A062449\\Deutsche Leasing\\RMS-Team - Release Management\\RMS-Dokumentation\\Mappings";
         String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
 
         Path downloadsPath = Paths.get(System.getProperty("user.home"), "Downloads", "extracted-data-" + timestamp + ".xlsx");
