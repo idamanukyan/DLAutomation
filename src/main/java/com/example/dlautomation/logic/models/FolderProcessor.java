@@ -126,18 +126,18 @@ public class FolderProcessor {
         String folderPath = "C:\\Users\\A062449\\Deutsche Leasing\\RMS-Team - Release Management\\RMS-Dokumentation\\Mappings";
         String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
 
-        Path resultsFolder = Paths.get(System.getProperty("user.home"), "Downloads", "mapping_results");
+        Path baseFolder = Paths.get(System.getProperty("user.home"), "Downloads", "mapping_results_" + timestamp);
 
-        File resultsFolderFile = resultsFolder.toFile();
+        File resultsFolderFile = baseFolder.toFile();
         if (!resultsFolderFile.exists()) {
             if (!resultsFolderFile.mkdirs()) {
-                System.err.println("Failed to create the results folder: " + resultsFolder);
+                System.err.println("Failed to create the results folder: " + baseFolder);
                 return;
             }
         }
 
-        Path excelFilePath = resultsFolder.resolve("extracted-data-" + timestamp + ".xlsx");
-        Path logFilePath = resultsFolder.resolve("application-" + timestamp + ".log");
+        Path excelFilePath = baseFolder.resolve("extracted-data-" + timestamp + ".xlsx");
+        Path logFilePath = baseFolder.resolve("application-" + timestamp + ".log");
 
         GlobalLogger.initialize(logFilePath.toString());
 
