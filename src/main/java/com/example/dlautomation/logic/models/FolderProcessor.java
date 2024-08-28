@@ -28,7 +28,10 @@ public class FolderProcessor {
         File folder = new File(folderPath);
         List<File> filesToProcess = new ArrayList<>();
 
-        collectFilesRecursively(folder, filesToProcess);
+        int totalFileCount = collectFilesRecursively(folder, filesToProcess);
+
+        logger.log(Level.INFO, "Number of files found to process: {0}", totalFileCount);
+
 
         if (!filesToProcess.isEmpty()) {
 
@@ -69,24 +72,23 @@ public class FolderProcessor {
         }
     }
 
-    private static void collectFilesRecursively(File folder, List<File> filesToProcess) {
-        logger.log(Level.INFO, "Collecting files in folder: {0}", folder.getAbsolutePath());
+    private static int collectFilesRecursively(File folder, List<File> filesToProcess) {
         File[] files = folder.listFiles();
+        int fileCount = 0;
 
         if (files != null) {
             for (File file : files) {
                 if (file.isDirectory()) {
-                    logger.log(Level.INFO, "Entering subfolder: {0}", file.getAbsolutePath());
-                    collectFilesRecursively(file, filesToProcess);
+                    fileCount += collectFilesRecursively(file, filesToProcess); // Recursively count files in subdirectories
                 } else if (file.isFile() && (file.getName().endsWith(".doc") || file.getName().endsWith(".docx"))) {
-                    logger.log(Level.INFO, "Adding file to process list: {0}", file.getAbsolutePath());
                     filesToProcess.add(file);
+                    fileCount++;
                 }
             }
-        } else {
-            logger.log(Level.WARNING, "No files found in the folder: {0}", folder.getAbsolutePath());
         }
+        return fileCount;
     }
+
 
     private static List<ChangeInfo> getRedChangesWithTableName(String docPath) {
         logger.log(Level.INFO, "Getting red changes from document: {0}", docPath);
